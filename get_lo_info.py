@@ -15,14 +15,15 @@ import os
 from pathlib import Path
 
 # defaults that should work on all machines
-parent = Path(__file__).absolute().parent.parent
-LO = parent / 'LO'
-LOo = parent / 'LO_output'
-LOu = parent / 'LO_user'
-data = parent / 'LO_data'
+#parent = Path(__file__).absolute().parent.parent
+parent = Path('/agdat1')
+LO = Path('/data1/jvance/LO')
+LOo = Path('/data1/jvance/LO_output')
+LOu = Path('/data1/jvance/LO_user')
+data = Path('/agdat1/parker/LO_data')
 
 # This is where the ROMS source code, makefiles, and executables are
-roms_code = parent / 'LiveOcean_roms'
+roms_code = parent / 'parker/LO_roms_source_git'
 # NOTE 2023.11.03 This is obsolete. It was only used with an old model version
 # and is not used in any current ones.
 
@@ -34,11 +35,11 @@ traps_name = 'traps00'
 # I'm not sure this is the best way to solve this problem.
 
 # These are places where the ROMS history files are kept
-roms_out = parent / 'LO_roms'
-roms_out1 = parent / 'BLANK' # placeholder
-roms_out2 = parent / 'BLANK'
-roms_out3 = parent / 'BLANK'
-roms_out4 = parent / 'BLANK'
+roms_out = parent / 'parker/LO_roms'
+roms_out1 = Path('/agdat1/parker/LO_roms') # placeholder
+roms_out2 = Path('/agdat1/parker/LO_roms')
+roms_out3 = Path('/agdat2/parker/LO_roms')
+roms_out4 = Path('/data2/parker/LiveOcean_roms/output')
 
 # these are for mox and klone, other hyak mackines
 remote_user = 'BLANK'
@@ -49,47 +50,7 @@ local_user = 'BLANK'
 # default for linux machines
 which_matlab = '/usr/local/bin/matlab'
 
-HOME = Path.home()
-try:
-    HOSTNAME = os.environ['HOSTNAME']
-except KeyError:
-    HOSTNAME = 'BLANK'
-    
-# debugging
-# print('** from get_lo_info.py **')
-# print('HOME = ' + str(HOME))
-# print('HOSTNAME = ' + HOSTNAME)
-
-if str(HOME) == '/Users/jessevance':
-    lo_env = 'jv_mac'
-
-elif (str(HOME) == '/home/parker') & ('perigee' in HOSTNAME):
-    lo_env = 'pm_perigee'
-    roms_out1 = Path('/agdat1/parker/LO_roms')
-    roms_out2 = Path('/agdat2/parker/LO_roms')
-    roms_out3 = Path('/data1/auroral/LO_roms')
-    roms_out4 = Path('/data2/parker/LiveOcean_roms/output')
-
-elif (str(HOME) == '/home/parker') & ('apogee' in HOSTNAME):
-    lo_env = 'pm_apogee'
-    roms_out1 = Path('/pgdat1/parker/LO_roms')
-    roms_out2 = Path('/pgdat2/parker/LO_roms')
-
-elif (str(HOME) == '/usr/lusers/pmacc'):
-    lo_env = 'pm_mox'
-    remote_user = 'parker'
-    # remote_machine = 'perigee.ocean.washington.edu'
-    # remote_dir0 = '/data1/parker'
-    remote_machine = 'apogee.ocean.washington.edu'
-    remote_dir0 = '/dat1/parker'
-    local_user = 'pmacc'
-
-elif ((str(HOME) == '/mmfs1/home/pmacc') or (str(HOME) == '/mmfs1/home/darrd')):
-    lo_env = 'pm_klone'
-    remote_user = 'parker'
-    remote_machine = 'apogee.ocean.washington.edu'
-    remote_dir0 = '/dat1/parker'
-    local_user = 'pmacc'
+lo_env = 'jv_mac'
 
 Ldir0 = dict()
 Ldir0['lo_env'] = lo_env
